@@ -1,0 +1,20 @@
+PODS:
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
+
+DEPENDENCIES:
+  - AppAuth
+
+SPEC REPOS:
+  trunk:
+    - AppAuth
+
+SPEC CHECKSUMS:
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+
+PODFILE CHECKSUM: 75a4da8772c2aed2bd2a17ee06b9641dea7524b3
+
+COCOAPODS: 1.9.3
