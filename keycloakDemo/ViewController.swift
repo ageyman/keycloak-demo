@@ -11,21 +11,16 @@ import AppAuth
 struct AuthConstants {
     static let authorizationEndpoint = "https://localhost:8443/auth/realms/index-labs"
     static let tokenEndpoint = "https://localhost:8443/auth/realms/index-labs/protocol/openid-connect/token"
-    static let redirectURI = "com.fameventures.keycloakDemo/redirect"
+    static let redirectURI = "indexlabs://redirect"
 }
 
 class ViewController: UIViewController {
     private var authState: OIDAuthState?
-    private var authConfiguration: OIDServiceConfiguration? {
-        guard let authURL = URL(string: AuthConstants.authorizationEndpoint),
-              let tokenURL = URL(string: AuthConstants.tokenEndpoint) else { return nil}
-
-        return OIDServiceConfiguration(authorizationEndpoint: authURL, tokenEndpoint: tokenURL)
-    }
+    private var authConfiguration: OIDServiceConfiguration?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegate()
+        discoverConfiguration()
     }
     
     @IBAction private func didTapOnAuthButton(_ sender: Any) {
@@ -49,13 +44,18 @@ class ViewController: UIViewController {
                                        additionalParameters: nil)
     }
 
-    private func setDelegate() {
-        authState?.stateChangeDelegate = self
+    private func discoverConfiguration() {
+        guard let authURL = URL(string: AuthConstants.authorizationEndpoint) else { return }
+
+        OIDAuthorizationService.discoverConfiguration(forIssuer: authURL) { [unowned self] conf, _ in
+            self.authConfiguration = conf
+        }
     }
-}
 
-extension ViewController: OIDAuthStateChangeDelegate {
-    func didChange(_ state: OIDAuthState) {
+    private func getConfiguration() -> OIDServiceConfiguration? {
+        guard let authURL = URL(string: AuthConstants.authorizationEndpoint),
+              let tokenURL = URL(string: AuthConstants.tokenEndpoint) else { return nil}
 
+        return OIDServiceConfiguration(authorizationEndpoint: authURL, tokenEndpoint: tokenURL)
     }
 }
