@@ -11,7 +11,7 @@ import AppAuth
 struct AuthConstants {
     static let authorizationEndpoint = "https://localhost:8443/auth/realms/index-labs"
     static let tokenEndpoint = "https://localhost:8443/auth/realms/index-labs/protocol/openid-connect/token"
-    static let redirectURI = "https://www.example.com/redirect"
+    static let redirectURI = "com.fameventures.keycloakDemo/redirect"
 }
 
 class ViewController: UIViewController {
